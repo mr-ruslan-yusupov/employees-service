@@ -10,11 +10,11 @@
     </parent>
     <groupId>com.employees.service</groupId>
     <artifactId>employees-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <name>employees-service</name>
     <description>employees-service</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,8 +54,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.cellularstore.utils</groupId>
-            <artifactId>cellularstore-utils</artifactId>
+            <groupId>com.store.utils</groupId>
+            <artifactId>store-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -85,7 +85,6 @@
             <artifactId>jettison</artifactId>
             <version>1.5.1</version>
         </dependency>
-
     </dependencies>
 
     <build>
