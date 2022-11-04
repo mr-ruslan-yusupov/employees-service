@@ -1,5 +1,8 @@
 package com.employees.service.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,9 +19,9 @@ public class Employee {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, updatable = false)
     private String email;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, updatable = false)
     private String mobile;
     @Column(nullable = false)
     private String password;
@@ -72,6 +75,29 @@ public class Employee {
 
     public void setRole(EmployeeRole role) {
         this.role = role;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Employee)) {
+            return false;
+        }
+        Employee paramObj = (Employee) obj;
+        EqualsBuilder eb = new EqualsBuilder();
+        eb.append(getEmail(), paramObj.getEmail());
+        eb.append(getMobile(), paramObj.getMobile());
+        return eb.isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        HashCodeBuilder hcb = new HashCodeBuilder();
+        hcb.append(getEmail());
+        hcb.append(getMobile());
+        return hcb.toHashCode();
     }
 
 }
