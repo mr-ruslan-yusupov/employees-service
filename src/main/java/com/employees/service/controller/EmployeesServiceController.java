@@ -6,6 +6,7 @@ import com.employees.service.service.EmployeeRoleService;
 import com.employees.service.service.EmployeeService;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,15 @@ public class EmployeesServiceController {
     final private JwtTokenProvider tokenProvider;
     final private EmployeeRoleService employeeRoleService;
 
+    @Value("${application.name}")
+    private String applicationName;
+
+    @Value("${build.version}")
+    private String buildVersion;
+
+    @Value("${build.timestamp}")
+    private String buildTimestamp;
+
     public EmployeesServiceController(EmployeeService employeeService,
                                       AuthenticationManager authenticationManager,
                                       JwtTokenProvider tokenProvider,
@@ -37,9 +47,14 @@ public class EmployeesServiceController {
         this.employeeRoleService = employeeRoleService;
     }
 
-    @RequestMapping({"/","/employee"})
+    @RequestMapping(value = {"/","/employee"}, produces = MediaType.TEXT_PLAIN_VALUE)
     public String home() {
-        return "Employees Service";
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n[Application info]");
+        sb.append("\nApplication name : " + applicationName);
+        sb.append("\nBuild version    : " + buildVersion);
+        sb.append("\nBuild timestamp  : " + buildTimestamp);
+        return sb.toString();
     }
 
     @PostMapping(value = "/employee/register", produces = MediaType.APPLICATION_JSON_VALUE)
