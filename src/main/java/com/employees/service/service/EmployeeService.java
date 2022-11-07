@@ -34,21 +34,8 @@ public class EmployeeService {
         return employeeRepository.saveAndFlush(employee);
     }
 
-    public String deleteById(Long id) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            employeeRepository.deleteById(id);
-            jsonObject.put("message", "Employee deleted successfully");
-        } catch (EmptyResultDataAccessException e) {
-            try {
-                jsonObject.put("message", "No Employee entity with id " + id + " exists !");
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject.toString();
+    public void deleteById(Long id) {
+        employeeRepository.deleteById(id);
     }
 
 }

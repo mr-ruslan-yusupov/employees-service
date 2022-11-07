@@ -4,9 +4,11 @@ import com.employees.service.config.JwtTokenProvider;
 import com.employees.service.model.Employee;
 import com.employees.service.service.EmployeeRoleService;
 import com.employees.service.service.EmployeeService;
+import com.store.util.StoreConstants;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -64,10 +66,12 @@ public class EmployeesServiceController {
             employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
             employee.setRole(employeeRoleService.findByName(employee.getRole().getName()));
             Employee savedUser = employeeService.saveOrUpdate(employee);
+            jsonObject.put("status", StoreConstants.SUCCESS_STATUS);
             jsonObject.put("message", savedUser.getName() + " saved successfully");
             return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
         } catch (JSONException e) {
             try {
+                jsonObject.put("status", StoreConstants.FAILURE_STATUS);
                 jsonObject.put("exception", e.getMessage());
             } catch (JSONException e1) {
                 e1.printStackTrace();
@@ -111,8 +115,22 @@ public class EmployeesServiceController {
 
     @RequestMapping(path="/employee/delete-employee-by-id/{employeeId}", method = RequestMethod.GET)
     public ResponseEntity<String> deleteEmployeeById(@PathVariable("employeeId") Long employeeId) {
-        String jsonResponse = employeeService.deleteById(employeeId);
-        return new ResponseEntity<>(jsonResponse, HttpStatus.OK);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            employeeService.deleteById(employeeId);
+            jsonObject.put("status", StoreConstants.SUCCESS_STATUS);
+            jsonObject.put("message", "Employee deleted successfully");
+        } catch (EmptyResultDataAccessException e) {
+            try {
+                jsonObject.put("status", StoreConstants.FAILURE_STATUS);
+                jsonObject.put("message", "No Employee entity with id " + employeeId + " exists !");
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ResponseEntity<>(jsonObject.toString(), HttpStatus.OK);
     }
 
 }
