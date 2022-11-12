@@ -35,7 +35,7 @@ public class EmployeeDetailsService implements UserDetailsService {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(employee.getRole().getName()));
         if (employee.getRole().getName().equalsIgnoreCase(EmployeeRolesEnum.ADMIN_ROLE.toString())) {
-            authorities.add(new SimpleGrantedAuthority(EmployeeRolesEnum.STOCK_MANAGER_ROLE.toString()));
+            authorities.add(new SimpleGrantedAuthority(EmployeeRolesEnum.INVENTORY_MANAGER_ROLE.toString()));
             authorities.add(new SimpleGrantedAuthority(EmployeeRolesEnum.ORDER_MANAGER_ROLE.toString()));
         }
         return authorities;

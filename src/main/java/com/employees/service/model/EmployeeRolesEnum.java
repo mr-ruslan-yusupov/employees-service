@@ -7,10 +7,10 @@ public enum EmployeeRolesEnum {
             return "ADMIN_ROLE";
         }
     },
-    STOCK_MANAGER_ROLE {
+    INVENTORY_MANAGER_ROLE {
         @Override
         public String toString() {
-            return "STOCK_MANAGER_ROLE";
+            return "INVENTORY_MANAGER_ROLE";
         }
     },
     ORDER_MANAGER_ROLE {

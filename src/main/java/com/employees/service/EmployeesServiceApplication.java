@@ -29,7 +29,7 @@ public class EmployeesServiceApplication implements CommandLineRunner {
     public void run(String... args) {
         if (employeeRoleService.findAll().isEmpty()) {
             employeeRoleService.saveOrUpdate(new EmployeeRole(EmployeeRolesEnum.ADMIN_ROLE.toString()));
-            employeeRoleService.saveOrUpdate(new EmployeeRole(EmployeeRolesEnum.STOCK_MANAGER_ROLE.toString()));
+            employeeRoleService.saveOrUpdate(new EmployeeRole(EmployeeRolesEnum.INVENTORY_MANAGER_ROLE.toString()));
             employeeRoleService.saveOrUpdate(new EmployeeRole(EmployeeRolesEnum.ORDER_MANAGER_ROLE.toString()));
         }
 
@@ -44,9 +44,9 @@ public class EmployeesServiceApplication implements CommandLineRunner {
 
             Employee employee2 = new Employee();
             employee2.setEmail("tankist.teddy@gmail.com");
-            employee2.setName("Ruska Stock Manager");
+            employee2.setName("Ruska Inventory Manager");
             employee2.setMobile("0526751500");
-            employee2.setRole(employeeRoleService.findByName(EmployeeRolesEnum.STOCK_MANAGER_ROLE.toString()));
+            employee2.setRole(employeeRoleService.findByName(EmployeeRolesEnum.INVENTORY_MANAGER_ROLE.toString()));
             employee2.setPassword(new BCryptPasswordEncoder().encode("test-stock"));
             employeeService.saveOrUpdate(employee2);
 
