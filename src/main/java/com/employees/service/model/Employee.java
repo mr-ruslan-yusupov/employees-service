@@ -100,4 +100,14 @@ public class Employee {
         return hcb.toHashCode();
     }
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Employee{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", email='").append(email).append('\'');
+        sb.append(", mobile='").append(mobile).append('\'');
+        sb.append(", role=").append(role);
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -12,7 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication
 public class EmployeesServiceApplication implements CommandLineRunner {
-
     final private EmployeeRoleService employeeRoleService;
     final private EmployeeService employeeService;
 
@@ -33,14 +32,14 @@ public class EmployeesServiceApplication implements CommandLineRunner {
             employeeRoleService.saveOrUpdate(new EmployeeRole(EmployeeRolesEnum.ORDER_MANAGER_ROLE.toString()));
         }
 
-        if (employeeService.findAll().isEmpty()) {
+        if (employeeService.findAllEmployees().isEmpty()) {
             Employee employee1 = new Employee();
             employee1.setEmail("mr.ruslan.yusupov@gmail.com");
             employee1.setName("Ruska Admin");
             employee1.setMobile("0525093585");
             employee1.setRole(employeeRoleService.findByName(EmployeeRolesEnum.ADMIN_ROLE.toString()));
             employee1.setPassword(new BCryptPasswordEncoder().encode("test-admin"));
-            employeeService.saveOrUpdate(employee1);
+            employeeService.saveOrUpdateEmployee(employee1);
 
             Employee employee2 = new Employee();
             employee2.setEmail("tankist.teddy@gmail.com");
@@ -48,7 +47,7 @@ public class EmployeesServiceApplication implements CommandLineRunner {
             employee2.setMobile("0526751500");
             employee2.setRole(employeeRoleService.findByName(EmployeeRolesEnum.INVENTORY_MANAGER_ROLE.toString()));
             employee2.setPassword(new BCryptPasswordEncoder().encode("test-stock"));
-            employeeService.saveOrUpdate(employee2);
+            employeeService.saveOrUpdateEmployee(employee2);
 
             Employee employee3 = new Employee();
             employee3.setEmail("rusa.trader@hotmail.com");
@@ -56,7 +55,7 @@ public class EmployeesServiceApplication implements CommandLineRunner {
             employee3.setMobile("0528532596");
             employee3.setRole(employeeRoleService.findByName(EmployeeRolesEnum.ORDER_MANAGER_ROLE.toString()));
             employee3.setPassword(new BCryptPasswordEncoder().encode("test-order"));
-            employeeService.saveOrUpdate(employee3);
+            employeeService.saveOrUpdateEmployee(employee3);
         }
 
     }
