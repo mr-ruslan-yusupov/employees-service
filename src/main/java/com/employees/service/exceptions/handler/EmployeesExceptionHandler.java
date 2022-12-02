@@ -1,19 +1,19 @@
 package com.employees.service.exceptions.handler;
 
-import com.employees.service.exceptions.InvalidInputException;
+import com.employees.service.exceptions.UnprocessableEntityException;
 import com.employees.service.exceptions.NotFoundException;
 import com.employees.service.exceptions.ServerException;
 import com.employees.service.exceptions.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-@ControllerAdvice
+@RestControllerAdvice
 class EmployeesExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeesExceptionHandler.class);
 
@@ -22,8 +22,8 @@ class EmployeesExceptionHandler extends ResponseEntityExceptionHandler {
         return createExceptionResponse(HttpStatus.NOT_FOUND, request, ex);
     }
 
-    @ExceptionHandler(InvalidInputException.class)
-    public @ResponseBody ExceptionResponse handleInvalidInputException(InvalidInputException ex, WebRequest request) {
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public @ResponseBody ExceptionResponse handleUnprocessableEntityException(UnprocessableEntityException ex, WebRequest request) {
         return createExceptionResponse(HttpStatus.UNPROCESSABLE_ENTITY, request, ex);
     }
 
@@ -38,8 +38,8 @@ class EmployeesExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private ExceptionResponse createExceptionResponse(HttpStatus httpStatus, WebRequest request, Exception ex) {
-        final String path = request.getDescription(false);
         final String message = ex.getMessage();
+        final String path = request.getDescription(false);
 
         LOG.debug("Returning HTTP status: {} for path: {}, message: {}", httpStatus, path, message);
         return new ExceptionResponse(httpStatus, path, message);

@@ -1,10 +1,7 @@
 package com.employees.service.service;
 
-import com.employees.service.exceptions.InvalidInputException;
-import com.employees.service.exceptions.NotFoundException;
 import com.employees.service.model.Employee;
 import com.employees.service.repository.EmployeeRepository;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -22,8 +19,8 @@ public class EmployeeService {
         return employeeRepository.findAll();
     }
 
-    public Employee findEmployeeById(Long id) {
-        return employeeRepository.findById(id).orElseThrow(() -> new NotFoundException("No employee found for employeeId: " + id));
+    public Optional<Employee> findEmployeeById(Long id) {
+        return employeeRepository.findById(id);
     }
 
     public Employee findEmployeeByEmail(String email) {
@@ -42,8 +39,8 @@ public class EmployeeService {
         return employeeRepository.saveAndFlush(employee);
     }
 
-    public void deleteEmployeeById(Long id) {
-        employeeRepository.deleteById(id);
+    public void deleteEmployee(Long employeeId) {
+        employeeRepository.deleteById(employeeId);
     }
 
 }
