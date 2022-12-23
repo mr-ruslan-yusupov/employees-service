@@ -156,7 +156,7 @@ public class EmployeesServiceController {
     }
 
     @DeleteMapping(path="/employee/delete-employee/{employeeId}")
-    public void deleteEmployee(@PathVariable("employeeId") Long employeeId) {
+    public ResponseEntity<String> deleteEmployee(@PathVariable("employeeId") Long employeeId) {
         LOG.debug("EmployeesServiceController.deleteEmployee(): tries to delete an employee with id: {}", employeeId);
         try {
             employeeService.deleteEmployee(employeeId);
@@ -164,6 +164,7 @@ public class EmployeesServiceController {
         catch (EmptyResultDataAccessException e) {
             throw new EmployeeNotFoundException("Not found employee with id: " + employeeId);
         }
+        return ResponseEntity.ok().build();
     }
 
     private boolean isEmployeeMandatoryFieldsMissing(Employee employee) {

@@ -18,7 +18,7 @@ class EmployeesExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeesExceptionHandler.class);
 
     @ExceptionHandler(EmployeeNotFoundException.class)
-    public @ResponseBody ExceptionResponse handleNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
+    public @ResponseBody ExceptionResponse handleEmployeeNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
         return createExceptionResponse(HttpStatus.NOT_FOUND, request, ex);
     }
 
