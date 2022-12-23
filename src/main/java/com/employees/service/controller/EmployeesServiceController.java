@@ -2,7 +2,7 @@ package com.employees.service.controller;
 
 import com.employees.service.config.JwtTokenProvider;
 import com.employees.service.exceptions.UnprocessableEntityException;
-import com.employees.service.exceptions.NotFoundException;
+import com.employees.service.exceptions.EmployeeNotFoundException;
 import com.employees.service.exceptions.ServerException;
 import com.employees.service.exceptions.UnauthorizedException;
 import com.employees.service.model.Employee;
@@ -59,12 +59,10 @@ public class EmployeesServiceController {
 
     @RequestMapping(value = {"/","/employee"}, produces = MediaType.TEXT_PLAIN_VALUE)
     public String home() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n[Application info]");
-        sb.append("\nApplication name : " + applicationName);
-        sb.append("\nBuild version    : " + buildVersion);
-        sb.append("\nBuild timestamp  : " + buildTimestamp);
-        return sb.toString();
+        return "\n[Application info]" +
+                "\nApplication name : " + applicationName +
+                "\nBuild version    : " + buildVersion +
+                "\nBuild timestamp  : " + buildTimestamp;
     }
 
     @PostMapping(value = "/employee/authenticate", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -95,7 +93,7 @@ public class EmployeesServiceController {
         LOG.debug("EmployeesServiceController.createEmployee(): tries to create a new employee");
 
         if (isEmployeeMandatoryFieldsMissing(employee)) {
-            throw new UnprocessableEntityException("Employee fields are incomplete: " + employee.toString());
+            throw new UnprocessableEntityException("Employee fields are incomplete: " + employee);
         }
 
         if (employeeService.existsEmployeeByEmail(employee.getEmail())) {
@@ -117,11 +115,25 @@ public class EmployeesServiceController {
     public ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
         Optional<Employee> employeeRecord = employeeService.findEmployeeById(employee.getId());
         if (employeeRecord.isEmpty()) {
-            throw new NotFoundException("No employee found for employeeId: " + employee.getId());
+            throw new EmployeeNotFoundException("No employee found for employeeId: " + employee.getId());
         }
 
         if (isEmployeeMandatoryFieldsMissing(employee)) {
             throw new UnprocessableEntityException("Employee fields are incomplete: " + employee.toString());
+        }
+
+        if (StringUtils.isBlank(employee.getPassword())) {
+            employee.setPassword(employeeRecord.get().getPassword());
+        }
+        else {
+            employee.setPassword(new BCryptPasswordEncoder().encode(employee.getPassword()));
+        }
+
+        if (employee.getRole() == null) {
+            employee.setRole(employeeRecord.get().getRole());
+        }
+        else {
+            employee.setRole(employeeRoleService.findByName(employee.getRole().getName()));
         }
 
         Employee savedEmployee = employeeService.saveOrUpdateEmployee(employee);
@@ -138,7 +150,7 @@ public class EmployeesServiceController {
     public Employee findEmployeeById(@PathVariable("employeeId") Long employeeId) {
         Optional<Employee> employeeRecord = employeeService.findEmployeeById(employeeId);
         if (employeeRecord.isEmpty()) {
-            throw new NotFoundException("No employee found for employeeId: " + employeeId);
+            throw new EmployeeNotFoundException("No employee found for employeeId: " + employeeId);
         }
         return employeeRecord.get();
     }
@@ -150,7 +162,7 @@ public class EmployeesServiceController {
             employeeService.deleteEmployee(employeeId);
         }
         catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("Not found employee with id: " + employeeId);
+            throw new EmployeeNotFoundException("Not found employee with id: " + employeeId);
         }
     }
 

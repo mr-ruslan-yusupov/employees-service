@@ -1,7 +1,7 @@
 package com.employees.service.exceptions.handler;
 
 import com.employees.service.exceptions.UnprocessableEntityException;
-import com.employees.service.exceptions.NotFoundException;
+import com.employees.service.exceptions.EmployeeNotFoundException;
 import com.employees.service.exceptions.ServerException;
 import com.employees.service.exceptions.UnauthorizedException;
 import org.slf4j.Logger;
@@ -17,8 +17,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 class EmployeesExceptionHandler extends ResponseEntityExceptionHandler {
     private static final Logger LOG = LoggerFactory.getLogger(EmployeesExceptionHandler.class);
 
-    @ExceptionHandler(NotFoundException.class)
-    public @ResponseBody ExceptionResponse handleNotFoundException(NotFoundException ex, WebRequest request) {
+    @ExceptionHandler(EmployeeNotFoundException.class)
+    public @ResponseBody ExceptionResponse handleNotFoundException(EmployeeNotFoundException ex, WebRequest request) {
         return createExceptionResponse(HttpStatus.NOT_FOUND, request, ex);
     }
 
