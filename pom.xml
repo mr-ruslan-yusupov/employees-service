@@ -5,16 +5,18 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
+        <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.employees.service</groupId>
     <artifactId>employees-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <name>employees-service</name>
     <description>employees-service</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>dd-MM-yyyy HH:mm</maven.build.timestamp.format>
     </properties>
     <dependencies>
         <dependency>
@@ -54,8 +56,8 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.cellularstore.utils</groupId>
-            <artifactId>cellularstore-utils</artifactId>
+            <groupId>com.store.utils</groupId>
+            <artifactId>store-utils</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
@@ -73,7 +75,7 @@
         <dependency>
             <groupId>com.auth0</groupId>
             <artifactId>java-jwt</artifactId>
-            <version>3.19.1</version>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>javax.xml.bind</groupId>
@@ -83,16 +85,25 @@
         <dependency>
             <groupId>org.codehaus.jettison</groupId>
             <artifactId>jettison</artifactId>
-            <version>1.4.1</version>
+            <version>1.5.1</version>
         </dependency>
-
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>application.properties</include>
+                </includes>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${project.parent.version}</version>
             </plugin>
         </plugins>
     </build>

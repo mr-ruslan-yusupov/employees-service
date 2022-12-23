@@ -21,7 +21,7 @@ public class JwtTokenProvider implements Serializable {
 
 	private static final long serialVersionUID = 2569800841756370596L;
 
-	private final static long VALIDITY_TIME_IN_MILLISECONDS  = 5 * 60000; // 5 minutes
+	private final static long VALIDITY_TIME_IN_MILLISECONDS  = 15 * 60000; // 5 minutes
 
 	final private EmployeeDetailsService employeeDetailsService;
 

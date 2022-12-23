@@ -2,9 +2,6 @@ package com.employees.service.service;
 
 import com.employees.service.model.Employee;
 import com.employees.service.repository.EmployeeRepository;
-import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -18,37 +15,32 @@ public class EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
-    public Collection<Employee> findAll() {
+    public Collection<Employee> findAllEmployees() {
         return employeeRepository.findAll();
     }
 
-    public Optional<Employee> findById(Long id) {
+    public Optional<Employee> findEmployeeById(Long id) {
         return employeeRepository.findById(id);
     }
 
-    public Employee findByEmail(String email) {
+    public Employee findEmployeeByEmail(String email) {
         return employeeRepository.findEmployeeByEmail(email);
     }
 
-    public Employee saveOrUpdate(Employee employee) {
+    public Boolean existsEmployeeByEmail(String email) {
+        return employeeRepository.existsEmployeeByEmail(email);
+    }
+
+    public Boolean existsEmployeeByMobile(String mobile) {
+        return employeeRepository.existsEmployeeByMobile(mobile);
+    }
+
+    public Employee saveOrUpdateEmployee(Employee employee) {
         return employeeRepository.saveAndFlush(employee);
     }
 
-    public String deleteById(Long id) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            employeeRepository.deleteById(id);
-            jsonObject.put("message", "Employee deleted successfully");
-        } catch (EmptyResultDataAccessException e) {
-            try {
-                jsonObject.put("message", "No Employee entity with id " + id + " exists !");
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject.toString();
+    public void deleteEmployee(Long employeeId) {
+        employeeRepository.deleteById(employeeId);
     }
 
 }
