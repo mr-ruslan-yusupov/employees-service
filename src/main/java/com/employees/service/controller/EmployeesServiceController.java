@@ -57,7 +57,7 @@ public class EmployeesServiceController {
         this.employeeRoleService = employeeRoleService;
     }
 
-    @RequestMapping(value = {"/","/employee"}, produces = MediaType.TEXT_PLAIN_VALUE)
+    @GetMapping(value = {"/","/employee"}, produces = MediaType.TEXT_PLAIN_VALUE)
     public String home() {
         return "\n[Application info]" +
                 "\nApplication name : " + applicationName +

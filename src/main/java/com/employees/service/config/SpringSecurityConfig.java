@@ -39,6 +39,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.cors();
 		http.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authorizeRequests()
+				.antMatchers("/").permitAll()
+				.antMatchers("/employee").permitAll()
 				.antMatchers("/employee/register").permitAll()
 				.antMatchers("/employee/authenticate").permitAll()
 				.anyRequest().authenticated();
